@@ -2,8 +2,12 @@ import { ChatOpenAI } from "langchain/chat_models/openai";
 import { PromptTemplate } from "langchain/prompts";
 import { createClient } from "pexels";
 
+console.log('process.env');
+
 const fetchAnswers = async () => {
-    const openAIApiKey = "";
+    // const openAIApiKey = "";
+
+    const openAIApiKey = process.env.API_KEY;
 
     const llm = new ChatOpenAI({ openAIApiKey });
 
