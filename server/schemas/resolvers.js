@@ -138,7 +138,7 @@ const resolvers = {
           { $set: { responseText } },
           { new: true }
         );
-        console.log("heres my updated topic!: ", updatedResponse);
+        console.log("heres my updated response!: ", updatedResponse);
         return updatedResponse;
       } catch (error) {
         console.error(error);

@@ -69,6 +69,20 @@ const fetchImages = async (searchTerm) => {
   }
 };
 
+const fetchCustomImages = async (searchTerm) => {
+  const query = searchTerm;
+
+  const client = createClient(process.env.PEXELS_API_KEY);
+
+  try {
+    const data = await client.photos.search({ query, per_page: 5 });
+    console.log("Here sht image data I got back, ", data);
+    return data;
+  } catch (error) {
+    console.error("Error fetching Pexels data:", error);
+  }
+};
+
 app.post("/api/fetchAnswers", async (req, res) => {
   console.log(req.body);
   const { userInput } = req.body;
@@ -88,6 +102,19 @@ app.post("/api/fetchImage", async (req, res) => {
 
   try {
     const imageResult = await fetchImages(searchTerm);
+    res.json(imageResult);
+  } catch (error) {
+    console.error("Error fetching data from API:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+app.post("/api/fetchCustomImage", async (req, res) => {
+  console.log(req.body);
+  const { searchTerm } = req.body;
+
+  try {
+    const imageResult = await fetchCustomImages(searchTerm);
     res.json(imageResult);
   } catch (error) {
     console.error("Error fetching data from API:", error);

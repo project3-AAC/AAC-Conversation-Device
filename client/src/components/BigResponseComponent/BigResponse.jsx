@@ -14,6 +14,17 @@ const BigResponse = ({ userId, promptText, responses, imageURLs }) => {
     window.speechSynthesis.speak(utterance);
   };
   console.log("this is the promptText,", promptText);
+
+  const fetchCustomImage = async (event, index) => {
+    event.preventDefault();
+    const newResponse = prompt(`Enter new text for response ${index + 1}`);
+    if (newResponse !== null) {
+      const updatedResponses = [...responses];
+      updatedResponses[index] = newResponse;
+      setResponse(updatedResponses);
+    }
+  };
+
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
@@ -44,14 +55,11 @@ const BigResponse = ({ userId, promptText, responses, imageURLs }) => {
           });
         } catch (responseError) {
           console.error(`Error adding response at index ${i}:`, responseError);
-          // Add your error handling logic here
         }
       }
-      ("");
       setResponse("");
     } catch (topicError) {
       console.error("Error adding topic:", topicError);
-      // Add your error handling logic here
     }
   };
 
@@ -63,15 +71,23 @@ const BigResponse = ({ userId, promptText, responses, imageURLs }) => {
         <span>{promptText}</span>
       </div>
       {responses.map((response, index) => (
-        <form className="responseButton" key={index}>
+        <div className="responseButton" key={index}>
           <div id={`button-${index}`}>
             <div>
-              <p>{response}</p>
+              <p>
+                {response}
+                <button onClick={(event) => fetchCustomImage(event, index)}>
+                  edit
+                </button>
+              </p>
             </div>
             <img src={imageURLs[index]} alt={`Response Image ${index}`} />
           </div>
-        </form>
+        </div>
       ))}
+      <div>
+        <button onClick={fetchCustomImage}>Add Your Own Response</button>
+      </div>
     </form>
   );
 };
