@@ -16,7 +16,7 @@ const Home = () => {
         <Header />
         <Navbar />
         <RecordButton />
-        {/* <SavedTopics username={username} topics={topics} /> */}
+        <SavedTopics username={username} topics={topics} />
       </div>
     </main>
   );
