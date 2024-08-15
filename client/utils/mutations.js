@@ -74,6 +74,26 @@ export const ADD_RESPONSE = gql`
   }
 `;
 
+export const EDIT_RESPONSE = gql`
+  mutation Mutation(
+    $responseId: ID!
+    $responseText: String
+    $imageUrl: String
+  ) {
+    editResponse(
+      responseId: $responseId
+      responseText: $responseText
+      imageURL: $imageUrl
+    ) {
+      promptText
+      _id
+      responses {
+        responseText
+      }
+    }
+  }
+`;
+
 export const REMOVE_TOPIC = gql`
   mutation Mutation($topicId: ID!) {
     removeTopic(topicId: $topicId) {

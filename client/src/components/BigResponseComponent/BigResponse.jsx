@@ -7,7 +7,6 @@ import {
 } from "../../../utils/mutations";
 
 import "./BigResponse.scss";
-import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Auth from "../../../utils/auth";
 import EditModal from "../EditModal/EditModal";
@@ -96,6 +95,8 @@ export default function BigResponse({
     }
   };
 
+  console.log("This is the type of my responses, ", typeof responses);
+
   const savedResponse = savedTopic
     ? { background: "darkseagreen" }
     : { background: "white" };
@@ -173,15 +174,12 @@ export default function BigResponse({
             className="responseButton"
             style={savedResponse}
           >
-            <Card style={{ width: "20rem" }} id={`button-${index}`}>
+            <div style={{ width: "20rem" }} id={`button-${index}`}>
               <div>
-                <Card.Title>{response}</Card.Title>
+                <div>{response}</div>
               </div>
-              <Card.Img
-                src={imageURLs[index]}
-                alt={`Response Image ${index}`}
-              />
-            </Card>
+              <img src={imageURLs[index]} alt={`Response Image ${index}`} />
+            </div>
           </div>
         ))}
       </form>

@@ -12,6 +12,7 @@ import { QUERY_ME } from "../../../utils/queries";
 import { ADD_RESPONSE } from "../../../utils/mutations";
 
 import { bouncy } from "ldrs";
+import ResponsesList from "../ResponsesList/ResponsesList";
 
 bouncy.register();
 
@@ -62,7 +63,18 @@ export default function RecordButton() {
 
       const chatGPTResultsArray = chatGPTResults.split("\n");
       setResponses(chatGPTResultsArray);
-
+      console.log(
+        "here are my responses. I am in the RecordButton JSX, ",
+        responses
+      );
+      console.log(
+        "This is the type of responses in RecordButton:",
+        typeof responses
+      );
+      console.log(
+        "This is the type of responses in RecordButton:",
+        Array.isArray(responses) ? "array" : typeof responses
+      );
       const newImageURLs = [];
 
       await Promise.all(
@@ -122,14 +134,24 @@ export default function RecordButton() {
             <l-bouncy size="65" speed="1.75" color="purple"></l-bouncy>
           </div>
         ) : (
-          <BigResponse
-            responses={responses}
-            isFetchedAnswers={isFetchedAnswers}
-            promptText={userInput}
-            userId={userId}
-            imageURLs={imageURLs}
-            addCustomResponse={addCustomResponse}
-          />
+          <div>
+            <BigResponse
+              responses={responses}
+              isFetchedAnswers={isFetchedAnswers}
+              promptText={userInput}
+              userId={userId}
+              imageURLs={imageURLs}
+              addCustomResponse={addCustomResponse}
+            />
+            <ResponsesList
+              responses={responses}
+              imageURLs={imageURLs}
+              promptText={userInput}
+              userId={userId}
+              isFetchedAnswers={isFetchedAnswers}
+              addCustomResponse={addCustomResponse}
+            />
+          </div>
         )}
       </div>
     </div>
