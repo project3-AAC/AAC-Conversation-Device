@@ -135,14 +135,14 @@ export default function RecordButton() {
           </div>
         ) : (
           <div>
-            <BigResponse
+            {/* <BigResponse
               responses={responses}
               isFetchedAnswers={isFetchedAnswers}
               promptText={userInput}
               userId={userId}
               imageURLs={imageURLs}
               addCustomResponse={addCustomResponse}
-            />
+            /> */}
             <ResponsesList
               responses={responses}
               imageURLs={imageURLs}

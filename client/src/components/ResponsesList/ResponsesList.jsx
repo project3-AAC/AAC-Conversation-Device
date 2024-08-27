@@ -92,14 +92,17 @@ export default function ResponsesList({
             Save Topic and Responses
           </Button>
           <EditModal addCustomResponse={addCustomResponse} />
-          {responsesAndImages.map(({ response, imageURL }, index) => (
-            <Response
-              key={index}
-              response={response}
-              imageURL={imageURL}
-              savedTopic={savedTopic}
-            />
-          ))}
+          {savedTopic ? <h1>saved!</h1> : <h1>Topic not yet saved</h1>}
+          <div className="grid grid-cols-3 gap-3">
+            {responsesAndImages.map(({ response, imageURL }, index) => (
+              <Response
+                key={index}
+                response={response}
+                imageURL={imageURL}
+                savedTopic={savedTopic}
+              />
+            ))}
+          </div>
         </div>
       ) : (
         <></>

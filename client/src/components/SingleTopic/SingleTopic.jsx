@@ -8,6 +8,7 @@ import EditModal from "../EditModal/EditModal";
 import { useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import { MdDoneOutline } from "react-icons/md";
+import ResponsesList from "../ResponsesList/ResponsesList";
 
 import { ADD_RESPONSE, REMOVE_RESPONSE } from "../../../utils/mutations";
 import { CiSquareRemove } from "react-icons/ci";
@@ -17,6 +18,7 @@ export default function SingleTopic() {
   const [addResponse, { error }] = useMutation(ADD_RESPONSE, {
     refetchQueries: [QUERY_SINGLE_TOPIC, `${topicId}`],
   });
+
   const [removeResponse, { error: removeResponseError }] = useMutation(
     REMOVE_RESPONSE,
     { refetchQueries: [QUERY_SINGLE_TOPIC, `${topicId}`] }
@@ -50,6 +52,9 @@ export default function SingleTopic() {
   const { loading, data } = useQuery(QUERY_SINGLE_TOPIC, {
     variables: { topicId },
   });
+  if (data) {
+    console.log("query single topic ", data);
+  }
 
   const responses = data?.topic.responses || [];
   const topicText = data?.topic.promptText;
@@ -86,47 +91,14 @@ export default function SingleTopic() {
       </div>
 
       <div className="responsesContainer">
-        <span>
-          {editMode ? (
-            <EditModal
-              className="editModal"
-              addCustomResponse={addCustomResponse}
-            />
-          ) : (
-            <></>
-          )}
-
-          {responses.map((response, index) => (
-            <form
-              onClick={handleSpeak(response.responseText)}
-              className="responseButton"
-              key={index}
-            >
-              <Card style={{ width: "20rem" }} id={`button-${index}`}>
-                <div className="responseTitleContainer">
-                  <Card.Title>{response.responseText}</Card.Title>
-                  <span>
-                    {editMode ? (
-                      <CiSquareRemove
-                        type="button"
-                        className="removeResponseButton"
-                        onClick={(e) =>
-                          handleRemoveResponse(topicId, response._id, index, e)
-                        }
-                      />
-                    ) : (
-                      <></>
-                    )}
-                  </span>
-                </div>
-                <Card.Img
-                  src={response.imageURL}
-                  alt={`Response Image ${index}`}
-                />
-              </Card>
-            </form>
-          ))}
-        </span>
+        {/* <ResponsesList
+          responses={responses}
+          imageURLs={imageURLs}
+          promptText={userInput}
+          userId={userId}
+          isFetchedAnswers={isFetchedAnswers}
+          addCustomResponse={addCustomResponse}
+        /> */}
       </div>
     </form>
   );

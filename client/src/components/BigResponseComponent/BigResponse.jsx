@@ -104,7 +104,7 @@ export default function BigResponse({
   return removedTopic ? (
     <></>
   ) : (
-    <>
+    <section>
       <form onSubmit={handleFormSubmit}>
         {Auth.loggedIn() && isFetchedAnswers ? (
           <div className="saveButtonContainer">
@@ -166,23 +166,23 @@ export default function BigResponse({
         ) : (
           <></>
         )}
-
-        {responses.map((response, index) => (
-          <div
-            key={index}
-            onClick={() => speak(response)}
-            className="responseButton"
-            style={savedResponse}
-          >
-            <div style={{ width: "20rem" }} id={`button-${index}`}>
-              <div>
-                <div>{response}</div>
-              </div>
-              <img src={imageURLs[index]} alt={`Response Image ${index}`} />
-            </div>
-          </div>
-        ))}
       </form>
-    </>
+
+      {responses.map((response, index) => (
+        <div
+          key={index}
+          onClick={() => speak(response)}
+          className="responseButton"
+          style={savedResponse}
+        >
+          <div style={{ width: "20rem" }} id={`button-${index}`}>
+            <div>
+              <div className="bg-red-500">{response}</div>
+            </div>
+            <img src={imageURLs[index]} alt={`Response Image ${index}`} />
+          </div>
+        </div>
+      ))}
+    </section>
   );
 }

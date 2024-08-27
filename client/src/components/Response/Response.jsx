@@ -20,6 +20,11 @@ export default function Response({ response, imageURL, savedTopic }) {
     setEditMode(!editMode);
   };
 
+  const speak = (text) => {
+    const utterance = new SpeechSynthesisUtterance(text);
+    window.speechSynthesis.speak(utterance);
+  };
+
   const fetchCustomImageOptions = async () => {
     try {
       const imageData = await axios.post(
@@ -67,7 +72,6 @@ export default function Response({ response, imageURL, savedTopic }) {
 
   return (
     <>
-      {savedTopic ? <h1>saved!</h1> : <h1>Topic not yet saved</h1>}
       {editMode ? (
         <>
           <input
@@ -85,7 +89,6 @@ export default function Response({ response, imageURL, savedTopic }) {
             <>
               {possibleImageURLs.map((possibleImage) => (
                 <div
-                  className="possibleImageContainer"
                   key={possibleImage.id}
                   onClick={() =>
                     editResponseFunction(
@@ -137,8 +140,12 @@ export default function Response({ response, imageURL, savedTopic }) {
           <MdDoneOutline onClick={(e) => toggleEditMode(e)} />
         </>
       ) : (
-        <div style={savedResponse}>
-          <h6>
+        <div
+          style={savedResponse}
+          onClick={() => speak(response)}
+          className="flex flex-col items-center"
+        >
+          <h6 className="bg-purple-500">
             {customResponse}
             <span>
               <FaEdit onClick={(e) => toggleEditMode(e)} />
