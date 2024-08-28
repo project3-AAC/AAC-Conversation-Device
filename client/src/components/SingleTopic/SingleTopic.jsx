@@ -5,7 +5,7 @@ import "./SingleTopic.scss";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import EditModal from "../EditModal/EditModal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaEdit } from "react-icons/fa";
 import { MdDoneOutline } from "react-icons/md";
 import ResponsesList from "../ResponsesList/ResponsesList";
@@ -15,6 +15,9 @@ import { CiSquareRemove } from "react-icons/ci";
 
 export default function SingleTopic() {
   const { topicId } = useParams();
+  const [responses, setResponses] = useState([]);
+  const [imageURLs, setImageURLs] = useState([]);
+  const [promptText, setPromptText] = useState("");
   const [addResponse, { error }] = useMutation(ADD_RESPONSE, {
     refetchQueries: [QUERY_SINGLE_TOPIC, `${topicId}`],
   });
@@ -53,12 +56,25 @@ export default function SingleTopic() {
     variables: { topicId },
   });
   if (data) {
-    console.log("query single topic ", data);
+    console.log("single topic data", data);
+    console.log("responses, ", responses);
+    console.log("image URLS", imageURLs);
   }
-
-  const responses = data?.topic.responses || [];
-  const topicText = data?.topic.promptText;
-
+  useEffect(() => {
+    if (data) {
+      const responseTexts = data.topic.responses.map(
+        (response) => response.responseText
+      );
+      const queriedImageURLs = data.topic.responses.map(
+        (response) => response.imageURL
+      );
+      setResponses(responseTexts);
+      setImageURLs(queriedImageURLs);
+      setPromptText(data.topic.promptText);
+    }
+  }, [data]);
+  // const responses = data?.topic.responses || [];
+  // const topicText = data?.topic.promptText;
   const speak = (text) => {
     const utterance = new SpeechSynthesisUtterance(text);
     window.speechSynthesis.speak(utterance);
@@ -79,7 +95,7 @@ export default function SingleTopic() {
     <form className="singleTopicContainer">
       <div className="prompt-text-container">
         <div className="prompt-text">
-          <h2>{topicText}</h2>
+          {/* <h2>{topicText}</h2> */}
           <span className="editIcon">
             {editMode ? (
               <MdDoneOutline onClick={(e) => toggleEditMode(e)} />
@@ -91,14 +107,14 @@ export default function SingleTopic() {
       </div>
 
       <div className="responsesContainer">
-        {/* <ResponsesList
+        <ResponsesList
           responses={responses}
           imageURLs={imageURLs}
-          promptText={userInput}
-          userId={userId}
-          isFetchedAnswers={isFetchedAnswers}
+          promptText={promptText}
+          userId={null}
+          isFetchedAnswers={true}
           addCustomResponse={addCustomResponse}
-        /> */}
+        />
       </div>
     </form>
   );
