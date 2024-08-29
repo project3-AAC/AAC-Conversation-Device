@@ -2,17 +2,19 @@
 
 # Elevator Pitch
 
-Do you or someone that you know have a speech impairment or disability with severe communication disorders?
-If so, than the talker app is perfect for you! This app makes communication very simple
-by providing you with pictures and text to speech as responses to any question you might have.
-Just ask a question in the app to get started today!
+Introducing an AI-driven AAC (Augmentative and Alternative Communication) device designed to effortlessly generate responses to prompts or questions, specifically tailored to support individuals with expressive communication disorders. Our innovative technology empowers users by revolutionizing speech production, fostering meaningful interactions between indivduals with differenct communication limitations and preferences, and easing the learning curve for parents, guardians, or other caretakers setting up AAC devices by automatically populating conversation pages. Harnessing the power of OpenAI, we're dedicated to enhancing the agency and communication abilities of individuals with disabilities.
 
 # Description
 
-We have created an app that helps supplement or compensate for the
-impairment and disability patterns of individuals with severe expressive communication disorders.
-When asked a question in the app, the OpenAI pulls responses for
-the question asked along with pictures and a text to speech button
+AI-driven Augmentative and Alternative Communication (AAC) | Input your topic or question, and receive a curated selection of six potential answers tailored to your needs. Engineered with a focus on individuals with expressive communication disorders, our device offers seamless accessibility and empowerment.
+
+# Instructions
+
+Navigate to [Talker](https://ai-aac-db2.onrender.com/) and begin by clicking sign up to create an account, or by entering a prompt or question into the search bar (e.g. "What did you have for breakfast?" or "Let's talk about the Olympics"). The application will create 6 possible resposnes to the prompt given, and populate the page with the text of a response and a corresponding image. The user can then touch or click one of the responses and it will be read aloud by the device used. The user can also create custom responses and search for correspdong images via clicking the "Create Custom Response Button".
+
+IF the user is logged in, they can save the prompt and responses by clicking the "Save Topic and Responses" button, and then edit them further by clicking on the "Edit Topic" button. Once on the topic page, they can toggle edit mode by selecting the edit icon, allowing them to delete the response or change the text and image. They may also continue to add custom responses from this page, and the responses will automatically be saved.
+
+To view all of the saved topics, the user can navigate to the homepage or their user page, where they can select a topic by clicking or touching it.
 
 # Application Link
 

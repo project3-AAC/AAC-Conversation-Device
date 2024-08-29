@@ -19,9 +19,7 @@ const resolvers = {
     },
 
     me: async (parent, args, context) => {
-     
       if (context.user) {
-        
         return User.findOne({ _id: context.user._id }).populate({
           path: "savedTopics.topic",
           model: "Topic",
@@ -56,7 +54,7 @@ const resolvers = {
     addTopic: async (parent, { userId, topic }, context) => {
       try {
         const newTopic = await Topic.create({ promptText: topic });
-        
+
         const updatedUser = await User.findOneAndUpdate(
           { _id: userId },
           {
@@ -73,7 +71,6 @@ const resolvers = {
           }
         ).populate("savedTopics.topic");
 
-       
         return updatedUser;
       } catch (error) {
         console.error(error);
@@ -85,9 +82,10 @@ const resolvers = {
         const updatedTopic = await Topic.findByIdAndUpdate(
           topicId,
           { $set: { promptText } },
+
           { new: true }
         );
-        
+
         return updatedTopic;
       } catch (error) {
         console.error(error);
@@ -112,7 +110,7 @@ const resolvers = {
           responseText: responseText,
           imageURL: imageURL,
         });
-       
+
         const updatedTopic = await Topic.findByIdAndUpdate(
           topicId,
           {
@@ -123,7 +121,6 @@ const resolvers = {
             runValidators: true,
           }
         ).populate("responses");
-       
 
         return updatedTopic;
       } catch (error) {
@@ -131,14 +128,19 @@ const resolvers = {
         throw new Error("Failed to add response to Topic");
       }
     },
-    editResponse: async (parent, { responseId, responseText }, context) => {
+    editResponse: async (
+      parent,
+      { responseId, responseText, imageURL },
+      context
+    ) => {
       try {
         const updatedResponse = await Response.findByIdAndUpdate(
           responseId,
           { $set: { responseText } },
+          { $set: { ImageURL } },
           { new: true }
         );
-        
+
         return updatedResponse;
       } catch (error) {
         console.error(error);

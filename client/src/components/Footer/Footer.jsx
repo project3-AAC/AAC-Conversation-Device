@@ -1,12 +1,11 @@
-import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
-
+import "./Footer.scss";
 export default function Footer() {
   return (
     <Container id="footer">
       <Row>
         <Col>
-          <div className="text-center">
+          <div className="text-center footer">
             <a
               href="https://github.com/project3-AAC"
               target="_blank"
