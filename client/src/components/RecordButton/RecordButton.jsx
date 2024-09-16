@@ -30,6 +30,9 @@ export default function RecordButton() {
   };
 
   const { loading, data } = useQuery(QUERY_ME);
+  function isMobileOrTablet() {
+    return window.innerWidth <= 599;
+  }
 
   useEffect(() => {
     if (!loading && data && data.me) {
@@ -37,12 +40,22 @@ export default function RecordButton() {
     }
   }, [loading, data]);
 
+  // if (isMobileOrTablet()) {
+  //   useEffect(() => {
+  //     document.body.style.overflow = "hidden";
+  //     return () => {
+  //       document.body.style.overflow = "scroll";
+  //     };
+  //   }, []);
+  // }
+
   const addCustomResponse = async (response, imageURL) => {
     setResponses([...responses, response]);
     setImageURLs([...imageURLs, imageURL]);
   };
 
-  const fetchAnswersAndImages = async () => {
+  const fetchAnswersAndImages = async (e) => {
+    e.preventDefault();
     setResponsesLoading(true);
     try {
       const response = await axios.post(
@@ -60,34 +73,11 @@ export default function RecordButton() {
         );
         return;
       }
-      const testingArray = [
-        "1. chicken",
-        "2. sphaghetti",
-        "3. burger",
-        "4. tacos",
-        "5. Kimchi Jjigae",
-        "6. Soondubu",
-      ];
       const chatGPTResultsArray = chatGPTResults.split("\n");
       const filteredChatGPTResults = chatGPTResultsArray.map((response) =>
         response.replace(/[\d.]+/g, "")
       );
-      const filteredTestResults = testingArray.map((response) =>
-        response.replace(/\d+/g, "")
-      );
       setResponses(filteredChatGPTResults);
-      console.log(
-        "here are my responses. I am in the RecordButton JSX, ",
-        responses
-      );
-      console.log(
-        "This is the type of responses in RecordButton:",
-        typeof responses
-      );
-      console.log(
-        "This is the type of responses in RecordButton:",
-        Array.isArray(responses) ? "array" : typeof responses
-      );
       const newImageURLs = [];
 
       await Promise.all(
@@ -121,25 +111,33 @@ export default function RecordButton() {
 
   return (
     <div>
-      <Form.Control
-        className="mb-3"
-        type="text"
-        value={userInput}
-        onChange={handleInputChange}
-        placeholder="Enter a topic or question and OpenAI will create 6 possible responses"
-      />
-      <div className="button-container">
-        <div className="d-grid gap-2">
-          <Button
-            className="fetch-button"
-            variant="secondary"
-            size="lg"
-            onClick={fetchAnswersAndImages}
-          >
-            Generate Responses
-          </Button>
+      <form
+        onSubmit={(e) => {
+          fetchAnswersAndImages(e);
+        }}
+      >
+        <input
+          className="mb-3"
+          type="text"
+          value={userInput}
+          onChange={handleInputChange}
+          placeholder="Enter a topic or question and OpenAI will create 6
+          possible responses"
+        />
+
+        <div className="button-container">
+          <div className="d-grid gap-2">
+            <button
+              className="fetch-button"
+              variant="secondary"
+              size="lg"
+              type="submit"
+            >
+              Generate Responses
+            </button>
+          </div>
         </div>
-      </div>
+      </form>
 
       <div>
         {responsesLoading ? (

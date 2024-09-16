@@ -17,8 +17,6 @@ export default function ResponsesList({
   isFetchedAnswers,
   addCustomResponse,
 }) {
-  console.log("ResponsesList Responses, ", responses);
-  console.log("ResponseList ImageURLs, ", imageURLs);
   const [removedTopic, setRemovedtopic] = useState(false);
   const [savedTopic, setSavedTopic] = useState(false);
   const [addTopic, { error: topicError }] = useMutation(ADD_TOPIC);

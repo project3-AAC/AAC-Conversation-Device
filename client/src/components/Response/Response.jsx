@@ -25,7 +25,8 @@ export default function Response({ response, imageURL, savedTopic }) {
     window.speechSynthesis.speak(utterance);
   };
 
-  const fetchCustomImageOptions = async () => {
+  const fetchCustomImageOptions = async (e) => {
+    e.preventDefault();
     try {
       const imageData = await axios.post(
         `https://ai-aac-db2.onrender.com/api/fetchCustomImages`,
@@ -71,18 +72,24 @@ export default function Response({ response, imageURL, savedTopic }) {
     : { background: "white" };
 
   return (
-    <>
+    <div>
       {editMode ? (
-        <>
-          <input
-            placeholder="Enter custom response text"
-            onChange={(e) => setCustomResponse(e.target.value)}
-          />
-          <input
-            placeholder="Enter search term for custom image"
-            onChange={(e) => setImageSearchTerm(e.target.value)}
-          />
-          <button onClick={fetchCustomImageOptions}>Search Images</button>
+        <div className="editModule z-20 absolute">
+          <form
+            onSubmit={(e) => {
+              fetchCustomImageOptions(e);
+            }}
+          >
+            <input
+              placeholder="Enter custom response text"
+              onChange={(e) => setCustomResponse(e.target.value)}
+            />
+            <input
+              placeholder="Enter search term for custom image"
+              onChange={(e) => setImageSearchTerm(e.target.value)}
+            />
+            <button type="submit">Search Images</button>
+          </form>
           <img src={customImageURL}></img>
 
           {savedTopic ? (
@@ -138,14 +145,14 @@ export default function Response({ response, imageURL, savedTopic }) {
             </div>
           ))}
           <MdDoneOutline onClick={(e) => toggleEditMode(e)} />
-        </>
+        </div>
       ) : (
         <div
           style={savedResponse}
           onClick={() => speak(response)}
-          className="flex flex-col items-center"
+          className="flex flex-col items-center border-2 border-black"
         >
-          <h6 className="bg-purple-500">
+          <h6 className="flex flex-row">
             {customResponse}
             <span>
               <FaEdit onClick={(e) => toggleEditMode(e)} />
@@ -154,6 +161,6 @@ export default function Response({ response, imageURL, savedTopic }) {
           <img src={customImageURL}></img>
         </div>
       )}
-    </>
+    </div>
   );
 }
