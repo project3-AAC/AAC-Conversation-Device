@@ -20,31 +20,51 @@ const server = new ApolloServer({
   resolvers,
 });
 
-//Fetching responses from the OpenAI API based on user Input
 const fetchAnswers = async (userInput) => {
   const openAIApiKey = process.env.OPENAI_API_KEY;
 
   if (!openAIApiKey) {
-    console.error("could not find it!");
-    return;
+    console.error("❌ OPENAI_API_KEY not found in environment variables.");
+    throw new Error("Missing OpenAI API key");
   }
-  // Create connection to langchain
+
   const llm = new ChatOpenAI({ openAIApiKey });
 
-  //Prompt template sent to OpenAI
   const promptTemplate =
-    "You are in a AAC device. Give 6 1-2 word responses to the following topic or question to be used as a button to be pressed by an adult with developmental disabilities. do not start the response with a number separate each new response with a new line: {promptText}";
+    "You are in a AAC device. Give 6 1-2 word responses to the following topic or question to be used as a button to be pressed by an adult with developmental disabilities. do not start the response with a number. separate each new response with a new line: {promptText}";
+
   const responsePrompt = PromptTemplate.fromTemplate(promptTemplate);
   const responseChain = responsePrompt.pipe(llm);
 
   try {
+    console.log("📤 Sending prompt to OpenAI:", userInput);
+
     const result = await responseChain.invoke({
       promptText: userInput,
     });
 
-    return result;
+    console.log("✅ Raw result from LangChain/OpenAI:", result);
+    console.log("🧪 Type of result:", typeof result);
+
+    if (!result || typeof result !== "object") {
+      throw new Error("Unexpected result type from OpenAI");
+    }
+
+    if (!result.content) {
+      console.error(
+        "❌ 'content' property is missing from the OpenAI response."
+      );
+      console.log("🧾 Full result object:", JSON.stringify(result, null, 2));
+      throw new Error("Missing 'content' in OpenAI response");
+    }
+
+    return { content: result.content };
   } catch (error) {
-    console.error("Error fetching data from API:", error);
+    console.error(
+      "❌ Error fetching data from OpenAI via LangChain:",
+      error.message
+    );
+    throw error;
   }
 };
 

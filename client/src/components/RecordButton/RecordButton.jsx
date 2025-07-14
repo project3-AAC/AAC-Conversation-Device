@@ -46,13 +46,13 @@ export default function RecordButton() {
     setResponsesLoading(true);
     try {
       const response = await axios.post(
-        `https://ai-aac-db2.onrender.com/api/fetchAnswers`,
+        `http://localhost:3000/api/fetchAnswers`,
         {
           userInput,
         }
       );
 
-      const chatGPTResults = response.data.kwargs?.content;
+      const chatGPTResults = response.data.content;
 
       if (!chatGPTResults) {
         console.error(
@@ -62,6 +62,7 @@ export default function RecordButton() {
       }
 
       const chatGPTResultsArray = chatGPTResults.split("\n");
+
       setResponses(chatGPTResultsArray);
       console.log(
         "here are my responses. I am in the RecordButton JSX, ",
