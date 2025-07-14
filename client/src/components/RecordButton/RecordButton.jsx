@@ -45,12 +45,9 @@ export default function RecordButton() {
   const fetchAnswersAndImages = async () => {
     setResponsesLoading(true);
     try {
-      const response = await axios.post(
-        `http://localhost:3000/api/fetchAnswers`,
-        {
-          userInput,
-        }
-      );
+      const response = await axios.post(`/api/fetchAnswers`, {
+        userInput,
+      });
 
       const chatGPTResults = response.data.content;
 
